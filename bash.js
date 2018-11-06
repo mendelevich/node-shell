@@ -13,6 +13,10 @@ process.stdin.on('data', data => {
     const fileName = cmd.split(' ')[1];
     const cat = require('./cat');
     cat(fileName);
+  } else if (cmd.startsWith('curl')) {
+    const url = cmd.split(' ')[1];
+    const curl = require('./curl');
+    curl(url);
   } else {
     process.stdout.write('you typed ' + cmd);
     process.stdout.write('\nprompt > ');
