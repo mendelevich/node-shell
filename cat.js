@@ -1,19 +1,11 @@
 const fs = require('fs');
 
-function catLogic (fileName) {
-
-  // const fileContents =
-  fs.readFile(`./${fileName}`, (err, data) => {
+module.exports = (done, file) => {
+  fs.readFile(`./${file}`, (err, data) => {
     if (err) {
-      throw err;
+      done('Something went wrong!');
     } else {
-      process.stdout.write(data);
-      process.stdout.write('\nprompt > ');
+      done(data);
     }
   });
-
-  // console.log(fileName);
-
-}
-
-module.exports = catLogic;
+};

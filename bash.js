@@ -1,24 +1,40 @@
-process.stdout.write('prompt > ');
+const done = output => {
+  process.stdout.write(output);
+  process.stdout.write('\nprompt > ');
+};
+
+// Welcome message
+done('Welcome to Node Shell.');
 
 process.stdin.on('data', data => {
-  const cmd = data.toString().trim();
+  const input = data
+    .toString()
+    .trim()
+    .split(' ');
 
-  if (cmd === 'pwd') {
-    const pwd = require('./pwd');
-    pwd();
-  } else if (cmd === 'ls') {
-    const ls = require('./ls');
-    ls();
-  } else if (cmd.startsWith('cat')) {
-    const fileName = cmd.split(' ')[1];
-    const cat = require('./cat');
-    cat(fileName);
-  } else if (cmd.startsWith('curl')) {
-    const url = cmd.split(' ')[1];
-    const curl = require('./curl');
-    curl(url);
-  } else {
-    process.stdout.write('you typed ' + cmd);
-    process.stdout.write('\nprompt > ');
+  const cmd = input[0];
+  const arg = input[1];
+
+  switch (cmd) {
+    case 'pwd':
+      require('./pwd')(done);
+      break;
+    case 'ls':
+      require('./ls')(done);
+      break;
+    case 'cat':
+      require('./cat')(done, arg);
+      break;
+    case 'curl':
+      require('./curl')(done, arg);
+      break;
+    case 'date':
+      require('./date')(done);
+      break;
+    case 'echo':
+      require('./echo')(done, arg);
+      break;
+    default:
+      done('you typed ' + cmd);
   }
 });

@@ -1,12 +1,11 @@
 const request = require('request');
 
-function curlLogic(url) {
-  request(url, function(error, response, body) {
-    process.stdout.write('error: ', error);
-    process.stdout.write('statusCode: ', response.statusCode);
-    process.stdout.write('body: ', body);
-    process.stdout.write('\nprompt > ');
+module.exports = (done, url) => {
+  request(url, (err, response, body) => {
+    if (err) {
+      done('Something went wrong!');
+    } else {
+      done(body);
+    }
   });
-}
-
-module.exports = curlLogic;
+};
